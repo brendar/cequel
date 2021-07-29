@@ -31,8 +31,8 @@ module UUIDTester
 
     def threadsafe_and_forksafe_uuid_generator
       current_pid = Process.pid
-      if @pid != current_pid
-        @pid = current_pid
+      if Thread.current[:threadsafe_and_forksafe_uuid_generator_pid] != current_pid
+        Thread.current[:threadsafe_and_forksafe_uuid_generator_pid] = current_pid
         Thread.current[:threadsafe_and_forksafe_uuid_generator] = nil
       end
       Thread.current[:threadsafe_and_forksafe_uuid_generator] ||= Cassandra::TimeUuid::Generator.new
